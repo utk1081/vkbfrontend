@@ -1,0 +1,91 @@
+<div class="page">
+  <header class="header">
+    <h1>Insurance Proposal</h1>
+    <p>Schritt 1 von 4: Persönliche Informationen</p>
+  </header>
+
+  <main class="application-card">
+    <h2>Persönliche Informationen</h2>
+    <p>Bitte geben Sie Ihre persönlichen Angaben ein.</p>
+
+    @if (errorMessage) {
+      <p class="message error" role="alert">{{ errorMessage }}</p>
+    }
+
+    @if (successMessage) {
+      <p class="message success" role="status">{{ successMessage }}</p>
+    }
+
+    <form (ngSubmit)="save()">
+      <div class="fields">
+        <div class="field">
+          <label for="vorname">Vorname</label>
+          <input
+            id="vorname"
+            name="vorname"
+            pInputText
+            [(ngModel)]="vorname"
+            autocomplete="given-name"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="nachname">Nachname</label>
+          <input
+            id="nachname"
+            name="nachname"
+            pInputText
+            [(ngModel)]="nachname"
+            autocomplete="family-name"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="dateOfBirths">Geburtsdatum</label>
+          <input
+            id="dateOfBirths"
+            name="dateOfBirths"
+            pInputText
+            type="date"
+            [(ngModel)]="dateOfBirths"
+            autocomplete="bday"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="beruf">Beruf</label>
+          <input
+            id="beruf"
+            name="beruf"
+            pInputText
+            [(ngModel)]="beruf"
+            autocomplete="organization-title"
+            required
+          />
+        </div>
+
+        <div class="field field-full">
+          <label for="email">E-Mail-Adresse</label>
+          <input
+            id="email"
+            name="email"
+            pInputText
+            type="email"
+            [(ngModel)]="email"
+            autocomplete="email"
+            required
+          />
+        </div>
+      </div>
+
+      <lib-button
+        label="Angaben speichern"
+        type="submit"
+        [disabled]="isSaving"
+      ></lib-button>
+    </form>
+  </main>
+</div>

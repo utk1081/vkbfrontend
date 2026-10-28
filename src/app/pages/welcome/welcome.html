@@ -1,0 +1,33 @@
+
+<div class="page">
+  <header class="header">
+    <h1>Insurance Proposal</h1>
+    <p>Your insurance journey starts here.</p>
+  </header>
+
+  <main class="application-card">
+    <h2>Welcome</h2>
+    <p>
+      Start a new insurance application. You can provide your personal
+      information, select tariffs, enter your bank details, and review
+      your proposal before submitting it.
+    </p>
+
+    <lib-button
+      label="Start New Application"
+       [disabled]="isCreatingApplication"
+       (clicked)="startApplication()"
+    ></lib-button>
+
+    @if (errorMessage) {
+      <p class="error">{{ errorMessage }}</p>
+    }
+  </main>
+</div>
+
+<lib-text-field
+  label="Email address"
+  placeholder="Enter your email"
+  type="email"
+  [required]="true"
+/>
