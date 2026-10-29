@@ -1,0 +1,48 @@
+<div class="page">
+  <header class="header">
+    <h1>Insurance Proposal</h1>
+    <p>Schritt 2 von 4: Tarif auswählen</p>
+  </header>
+
+  <main class="application-card">
+    <h2>Tarifauswahl</h2>
+    <p>Bitte wählen Sie einen Tarif für Ihren Versicherungsantrag.</p>
+
+    @if (errorMessage()) {
+      <p class="message error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    @if (successMessage()) {
+      <p class="message success" role="status">{{ successMessage() }}</p>
+    }
+
+    @if (isLoading()) {
+      <p role="status">Tarife werden geladen …</p>
+    } @else if (tariffs().length > 0) {
+      <form (ngSubmit)="save()">
+        <fieldset class="tariffs">
+          <legend>Verfügbare Tarife</legend>
+          @for (tariff of tariffs(); track tariff.tariffId) {
+            <label class="tariff-option" [class.selected]="selectedTariffIds().includes(tariff.tariffId)">
+              <input
+                type="checkbox"
+                [checked]="selectedTariffIds().includes(tariff.tariffId)"
+                (change)="toggleTariff(tariff.tariffId, $event)"
+              />
+              <span class="tariff-copy">
+                <strong>{{ tariff.name }}</strong>
+                <span>{{ formatPrice(tariff.monthlyPrice) }} / Monat</span>
+              </span>
+            </label>
+          }
+        </fieldset>
+
+        <button type="submit" [disabled]="isSaving() || selectedTariffIds().length === 0">
+          {{ isSaving() ? 'Wird gespeichert …' : 'Tarif speichern' }}
+        </button>
+      </form>
+    } @else {
+      <p>Derzeit sind keine Tarife verfügbar.</p>
+    }
+  </main>
+</div>

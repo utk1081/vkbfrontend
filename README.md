@@ -57,3 +57,21 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Insurance application flow
+
+The frontend guides applicants through personal information, tariff selection,
+bank details, and a final summary where they can submit the application. It
+expects the Spring Boot backend to run at `http://localhost:8080` and uses these
+endpoints:
+
+- `POST /applications`
+- `POST /applications/{applicationId}/basic-information`
+- `GET /tariffs`
+- `POST /applications/{applicationId}/tariffs`
+- `POST /applications/{applicationId}/bank-details`
+- `GET /applications/{applicationId}/summary`
+- `POST /applications/{applicationId}/submit`
+
+Tariff prices and the final monthly total are provided by the backend. The
+summary masks all but the last four characters of the IBAN.

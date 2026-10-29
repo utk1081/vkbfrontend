@@ -1,0 +1,89 @@
+<div class="page">
+  <header class="header">
+    <h1>Insurance Proposal</h1>
+    <p>Schritt 4 von 4: Zusammenfassung</p>
+  </header>
+
+  <main class="application-card">
+    <h2>Ihr Antrag</h2>
+
+    @if (errorMessage()) {
+      <p class="message error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    @if (successMessage()) {
+      <p class="message success" role="status">{{ successMessage() }}</p>
+    }
+
+    @if (isLoading()) {
+      <p role="status">Zusammenfassung wird geladen …</p>
+    } @else if (summary(); as application) {
+      <section>
+        <h3>Persönliche Informationen</h3>
+        @if (application.basicInformation; as person) {
+          <dl>
+            <dt>Name</dt>
+            <dd>{{ person.vorname }} {{ person.nachname }}</dd>
+            <dt>Geburtsdatum</dt>
+            <dd>{{ person.dateOfBirth }}</dd>
+            <dt>Beruf</dt>
+            <dd>{{ person.profession }}</dd>
+            <dt>E-Mail</dt>
+            <dd>{{ person.email }}</dd>
+          </dl>
+        } @else {
+          <p>Keine persönlichen Angaben vorhanden.</p>
+        }
+      </section>
+
+      <section>
+        <h3>Ausgewählte Tarife</h3>
+        @if (application.selectedTariffs?.length) {
+          <ul class="tariff-list">
+            @for (tariff of application.selectedTariffs; track tariff.tariffId) {
+              <li>{{ getTariffName(tariff.tariffId) }}</li>
+            }
+          </ul>
+        } @else {
+          <p>Keine Tarife ausgewählt.</p>
+        }
+        @if (application.totalAmount !== null) {
+          <p class="total">
+            Monatlicher Gesamtbeitrag:
+            <strong>{{ formatPrice(application.totalAmount) }}</strong>
+          </p>
+        }
+      </section>
+
+      <section>
+        <h3>Bankverbindung</h3>
+        @if (application.bankDetails; as bank) {
+          <dl>
+            <dt>Kontoinhaber/in</dt>
+            <dd>{{ bank.accountHolder }}</dd>
+            <dt>IBAN</dt>
+            <dd>•••• •••• •••• {{ bank.iban.slice(-4) }}</dd>
+          </dl>
+        } @else {
+          <p>Keine Bankverbindung vorhanden.</p>
+        }
+      </section>
+
+      <p class="status">Antragsstatus: {{ application.status }}</p>
+
+      <button
+        type="button"
+        (click)="submit()"
+        [disabled]="isSubmitting() || application.status === 'SUBMITTED'"
+      >
+        {{
+          isSubmitting()
+            ? 'Wird übermittelt …'
+            : application.status === 'SUBMITTED'
+              ? 'Antrag übermittelt'
+              : 'Antrag verbindlich absenden'
+        }}
+      </button>
+    }
+  </main>
+</div>

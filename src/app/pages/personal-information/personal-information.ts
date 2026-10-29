@@ -2,6 +2,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { LibButton } from '../../shared/ui/button/button';
 import {
@@ -23,10 +24,12 @@ export class PersonalInformation {
   beruf = '';
   email = '';
   errorMessage: string | null = null;
-  successMessage: string | null = null;
   isSaving = false;
 
-  constructor(private applicationService: ApplicationService) {}
+  constructor(
+    private applicationService: ApplicationService,
+    private router: Router
+  ) {}
 
   save(): void {
     if (this.isSaving) {
@@ -34,7 +37,6 @@ export class PersonalInformation {
     }
 
     this.errorMessage = null;
-    this.successMessage = null;
 
     const applicationId = this.applicationService.getApplicationId();
 
@@ -55,7 +57,7 @@ export class PersonalInformation {
     this.applicationService.saveBasicInformation(applicationId, request).subscribe({
       next: () => {
         this.isSaving = false;
-        this.successMessage = 'Ihre persönlichen Angaben wurden gespeichert.';
+        this.router.navigate(['/tariff-selection']);
       },
       error: (error: unknown) => {
         this.isSaving = false;
@@ -75,6 +77,21 @@ export class PersonalInformation {
         typeof response.message === 'string'
       ) {
         return response.message;
+      }
+
+      if (
+        typeof response === 'object' &&
+        response !== null &&
+        'messages' in response &&
+        typeof response.messages === 'object' &&
+        response.messages !== null
+      ) {
+        const firstValidationMessage = Object.values(response.messages).find(
+          (message): message is string => typeof message === 'string'
+        );
+        if (firstValidationMessage) {
+          return firstValidationMessage;
+        }
       }
     }
 

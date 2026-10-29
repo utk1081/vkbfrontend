@@ -1,0 +1,47 @@
+<div class="page">
+  <header class="header">
+    <h1>Insurance Proposal</h1>
+    <p>Schritt 3 von 4: Bankdaten</p>
+  </header>
+
+  <main class="application-card">
+    <h2>Bankverbindung</h2>
+    <p>Bitte geben Sie die Bankverbindung für Ihren Antrag ein.</p>
+
+    @if (errorMessage()) {
+      <p class="message error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    <form (ngSubmit)="save()">
+      <div class="fields">
+        <div class="field">
+          <label for="accountHolder">Kontoinhaber/in</label>
+          <input
+            id="accountHolder"
+            name="accountHolder"
+            [(ngModel)]="accountHolder"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="iban">IBAN</label>
+          <input
+            id="iban"
+            name="iban"
+            [(ngModel)]="iban"
+            autocomplete="off"
+            inputmode="text"
+            maxlength="34"
+            required
+          />
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="isSaving()">
+        {{ isSaving() ? 'Wird gespeichert …' : 'Weiter zur Zusammenfassung' }}
+      </button>
+    </form>
+  </main>
+</div>

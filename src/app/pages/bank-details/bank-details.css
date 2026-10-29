@@ -1,0 +1,88 @@
+.page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f3f6fa;
+  color: #243247;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.header h1 {
+  margin-bottom: 8px;
+  color: #174a7e;
+}
+
+.header p,
+.application-card > p {
+  color: #526174;
+}
+
+.application-card {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgb(0 0 0 / 8%);
+}
+
+.application-card h2 {
+  margin-top: 0;
+}
+
+.fields {
+  display: grid;
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font: inherit;
+}
+
+button {
+  padding: 12px 22px;
+  border: 0;
+  border-radius: 6px;
+  background: #1769aa;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  background: #104d80;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.message {
+  margin: 16px 0;
+}
+
+.error {
+  color: #b42318;
+}
+
+@media (max-width: 600px) {
+  .application-card {
+    padding: 24px 20px;
+  }
+}

@@ -10,6 +10,38 @@ export interface BasicInformationRequest {
   email: string;
 }
 
+export interface TariffOption {
+  tariffId: string;
+  name: string;
+  monthlyPrice: number;
+}
+
+export interface TariffSelectionRequest {
+  selectedTariffIds: string[];
+}
+
+export interface BankDetailsRequest {
+  iban: string;
+  accountHolder: string;
+}
+
+export interface ApplicationBasicInformationSummary {
+  vorname: string;
+  nachname: string;
+  dateOfBirth: string;
+  profession: string;
+  email: string;
+}
+
+export interface ApplicationSummary {
+  applicationId: string;
+  status: string;
+  basicInformation: ApplicationBasicInformationSummary | null;
+  selectedTariffs: Array<{ tariffId: string }> | null;
+  bankDetails: BankDetailsRequest | null;
+  totalAmount: number | null;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,9 +78,13 @@ export class ApplicationService {
     );
   }
 
-  saveTariffSelection<TRequest extends object>(
+  getTariffs(): Observable<TariffOption[]> {
+    return this.http.get<TariffOption[]>('http://localhost:8080/tariffs');
+  }
+
+  saveTariffSelection(
     applicationId: string,
-    request: TRequest
+    request: TariffSelectionRequest
   ): Observable<void> {
     return this.http.post<void>(
       `${this.baseUrl}/${applicationId}/tariffs`,
@@ -56,9 +92,9 @@ export class ApplicationService {
     );
   }
 
-  saveBankDetails<TRequest extends object>(
+  saveBankDetails(
     applicationId: string,
-    request: TRequest
+    request: BankDetailsRequest
   ): Observable<void> {
     return this.http.post<void>(
       `${this.baseUrl}/${applicationId}/bank-details`,
@@ -66,10 +102,8 @@ export class ApplicationService {
     );
   }
 
-  getSummary<TSummary = unknown>(
-    applicationId: string
-  ): Observable<TSummary> {
-    return this.http.get<TSummary>(
+  getSummary(applicationId: string): Observable<ApplicationSummary> {
+    return this.http.get<ApplicationSummary>(
       `${this.baseUrl}/${applicationId}/summary`
     );
   }
